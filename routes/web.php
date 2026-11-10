@@ -159,22 +159,23 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/dashboard/gallery', [AdminController::class, 'addDashboardGallery'])->name('dashboard.addGallery');
     Route::post('/dashboard/gallery/{index}/delete', [AdminController::class, 'deleteDashboardGallery'])->name('dashboard.deleteGallery');
 
-    // [B] Test Upload Sederhana (dipertahankan apa adanya)
-    Route::get('/test-upload', function() {
-        return view('admin.test-upload');
-    })->name('admin.test-upload');
+    if (app()->environment(['local', 'testing'])) {
+        Route::get('/test-upload', function() {
+            return view('admin.test-upload');
+        })->name('admin.test-upload');
 
-    Route::post('/test-upload', function(\Illuminate\Http\Request $request) {
-        if (!$request->hasFile('foto')) {
-            return back()->with('error', 'File tidak terkirim. Cek enctype form!');
-        }
+        Route::post('/test-upload', function(\Illuminate\Http\Request $request) {
+            if (!$request->hasFile('foto')) {
+                return back()->with('error', 'File tidak terkirim. Cek enctype form!');
+            }
 
-        $file = $request->file('foto');
-        $nama = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('hero'), $nama);
+            $file = $request->file('foto');
+            $nama = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('hero'), $nama);
 
-        return back()->with('success', 'Berhasil! File: ' . $nama);
-    })->name('admin.test-upload.post');
+            return back()->with('success', 'Berhasil! File: ' . $nama);
+        })->name('admin.test-upload.post');
+    }
 
     // [B] Manage Harga & Tips (dinamis)
     Route::get('/prices', [AdminController::class, 'managePrices'])->name('prices');
@@ -210,11 +211,12 @@ Route::middleware(['auth', 'role:pengelola'])->prefix('pengelola')->name('pengel
     Route::post('/reservasi/{id}/sedang', [PengelolaController::class, 'tandaiSedang'])->name('reservasi.sedang');
 });
 
-// [A] rute uji halaman error
-Route::get('/403-test', function () {
-    abort(403, 'Forbidden');
-});
+if (app()->environment(['local', 'testing'])) {
+    Route::get('/403-test', function () {
+        abort(403, 'Forbidden');
+    });
 
-Route::get('/500-test', function () {
-    throw new \RuntimeException('Simulated server error for testing the branded 500 page.');
-});
+    Route::get('/500-test', function () {
+        throw new \RuntimeException('Simulated server error for testing the branded 500 page.');
+    });
+}

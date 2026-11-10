@@ -1,59 +1,82 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Booking dan Informasi Wisata Kawah Putih
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web Laravel untuk informasi wisata, pemesanan tiket/paket, verifikasi pembayaran, pengelolaan reservasi, dan pengaturan operasional Kawah Putih. Antarmuka menggunakan Blade dan aset frontend dibangun dengan Vite.
 
-## About Laravel
+## Fitur
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Pengunjung:** registrasi/login, melihat informasi dan paket, membuat booking, mengunggah bukti pembayaran, serta melihat tiket dan riwayat booking.
+- **Admin:** dashboard, verifikasi/penolakan booking, pengelolaan paket dan akun pengelola, serta pengaturan konten.
+- **Pengelola:** dashboard operasional, pencarian reservasi, pembaruan status kunjungan, pengaturan, dan analitik.
+- Validasi formulir, pembatasan akses berbasis role, dan halaman error yang ramah pengguna.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Teknologi dan persyaratan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2 atau lebih baru dan ekstensi PHP yang dibutuhkan Laravel (termasuk PDO untuk database yang dipilih).
+- Composer.
+- Node.js dan npm untuk membangun aset frontend.
+- SQLite untuk pengembangan lokal, atau MySQL/MariaDB untuk lingkungan bersama/produksi.
+- Web server yang document root-nya mengarah ke folder `public`.
 
-## Learning Laravel
+## Menjalankan secara lokal
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Dari direktori proyek:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Pasang dependensi PHP dan frontend:
 
-## Laravel Sponsors
+   ```sh
+   composer install
+   npm install
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. Salin `.env.example` menjadi `.env`, lalu atur `APP_URL` dan koneksi database. Untuk SQLite, pastikan file `database/database.sqlite` tersedia dan gunakan:
 
-### Premium Partners
+   ```dotenv
+   DB_CONNECTION=sqlite
+   DB_DATABASE=C:/path/ke/proyek/database/database.sqlite
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+   Untuk MySQL/MariaDB, gunakan `DB_CONNECTION=mysql` dan isi `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, serta `DB_PASSWORD`.
 
-## Contributing
+3. Buat application key dan jalankan migrasi:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+   ```sh
+   php artisan key:generate
+   php artisan migrate
+   php artisan db:seed --class=Database\\Seeders\\PaketSeeder
+   php artisan storage:link
+   ```
 
-## Code of Conduct
+4. Bangun aset dan jalankan server pengembangan:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   ```sh
+   npm run build
+   php artisan serve
+   ```
 
-## Security Vulnerabilities
+   Buka URL yang ditampilkan oleh `artisan serve`. Saat mengembangkan tampilan, `npm run dev` dapat dijalankan di terminal terpisah.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Akun dan akses
 
-## License
+- Pengunjung dapat membuat akun melalui halaman registrasi.
+- Akun admin awal tidak dibuat otomatis oleh seeder. Buat akun admin melalui proses administrasi yang tepercaya sebelum aplikasi dipakai, lalu buat akun pengelola dari panel admin.
+- Jangan menaruh password demo atau kredensial produksi di repository. Untuk presentasi, siapkan akun dan data demo lokal yang aman.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Pengujian
+
+Jalankan seluruh tes otomatis:
+
+```sh
+php artisan test
+```
+
+Tes mencakup alur login berbasis role, pencarian reservasi, booking pengunjung, katalog paket, dan halaman error.
+
+## Rilis dan dokumentasi
+
+- [Panduan deployment](docs/PANDUAN-DEPLOYMENT.md)
+- [Dokumentasi API dan endpoint JSON](docs/API.md)
+- [Panduan pengguna](docs/PANDUAN-PENGGUNA.md)
+- [Bahan presentasi Sprint 4](docs/PRESENTASI-SPRINT-4.md)
+- [Skenario latihan demo dan kontribusi tim](docs/REHEARSAL-SPRINT-4.md)
+
+Untuk produksi, gunakan `APP_ENV=production`, `APP_DEBUG=false`, HTTPS, database yang dikelola dengan aman, dan web root `public`. Lihat panduan deployment sebelum membuka aplikasi ke publik.

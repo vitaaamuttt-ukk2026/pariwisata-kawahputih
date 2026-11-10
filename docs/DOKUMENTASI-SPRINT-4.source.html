@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Dokumentasi Sprint 4 - Kawah Putih</title>
+<style>
+@page { size: A4; margin: 17mm 17mm 18mm 17mm; }
+body { font-family: Aptos, Calibri, Arial, sans-serif; color: #23332f; font-size: 10.5pt; line-height: 1.38; }
+h1, h2, h3 { color: #075b48; margin: 0 0 9pt; }
+h1 { font-size: 28pt; line-height: 1.15; }
+h2 { font-size: 19pt; border-bottom: 2px solid #d5ebe4; padding-bottom: 5pt; margin-top: 3pt; }
+h3 { font-size: 13pt; margin-top: 12pt; }
+p { margin: 5pt 0 8pt; }
+ul, ol { margin-top: 4pt; margin-bottom: 9pt; }
+li { margin-bottom: 4pt; }
+table { border-collapse: collapse; width: 100%; margin: 7pt 0 11pt; }
+th { background: #e4f3ee; color: #075b48; text-align: left; }
+th, td { border: 1px solid #c9ddd7; padding: 6pt 7pt; vertical-align: top; }
+.cover { height: 245mm; padding: 28mm 12mm 12mm; box-sizing: border-box; background: #edf8f4; }
+.eyebrow { color: #16856d; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+.subtitle { font-size: 18pt; color: #247b68; margin: 14pt 0 20pt; }
+.coverbox { border-left: 5px solid #0e9073; background: #fff; padding: 13pt 16pt; margin-top: 25pt; }
+.small { color: #64746f; font-size: 9pt; }
+.note { background: #eff7f4; border-left: 4px solid #20a080; padding: 8pt 10pt; margin: 8pt 0 12pt; }
+.warning { background: #fff8e9; border-left: 4px solid #db9a27; padding: 8pt 10pt; margin: 8pt 0 12pt; }
+.page { page-break-before: always; }
+.shot { width: 100%; max-height: 3.0in; object-fit: contain; border: 1px solid #d8e2de; }
+.caption { color: #52635e; font-size: 9pt; margin: 3pt 0 12pt; }
+.screen { margin-bottom: 6pt; }
+.tag { display: inline-block; background: #d9f0e8; color: #075b48; padding: 4pt 8pt; margin-right: 5pt; font-weight: bold; }
+.code { font-family: Consolas, monospace; background: #f3f6f5; padding: 1pt 3pt; }
+.muted { color: #60716c; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <p class="eyebrow">Laporan Akhir Proyek</p>
+  <h1>DOKUMENTASI<br>SPRINT 4</h1>
+  <p class="subtitle">Finalisasi, Dokumentasi, dan Persiapan Rilis</p>
+  <div class="coverbox">
+    <h2 style="border:0;margin:0">Sistem Booking dan Informasi Wisata Kawah Putih</h2>
+    <p>Aplikasi web untuk pengunjung, admin, dan pengelola destinasi wisata.</p>
+    <p><span class="tag">Laravel 12</span><span class="tag">PHP 8.2+</span><span class="tag">Blade</span></p>
+  </div>
+  <p style="margin-top:32pt"><b>Tanggal penyusunan:</b> 10 November 2026</p>
+  <p><b>Tim pengembang:</b> Lengkapi nama anggota dan pembagian tugas aktual sebelum diserahkan.</p>
+  <p class="small" style="margin-top:56pt">Dokumen disusun dari struktur proyek, route, migrasi, controller, view, dan hasil tes lokal. Screenshot di bagian bukti diambil dari aplikasi pada browser menggunakan database demo terisolasi dan data sintetis.</p>
+</section>
+
+<section class="page">
+  <h2>Ringkasan Eksekutif</h2>
+  <p>Sprint 4 berfokus pada finalisasi aplikasi, dokumentasi, persiapan rilis, presentasi, dan latihan demonstrasi. Proyek yang diperiksa adalah aplikasi booking wisata Kawah Putih berbasis Laravel, sehingga contoh perpustakaan dan endpoint buku pada lembar Sprint 4 disesuaikan dengan fitur yang benar-benar tersedia.</p>
+  <table>
+    <tr><th>Area Sprint 4</th><th>Hasil yang disiapkan</th></tr>
+    <tr><td>Perbaikan dan verifikasi akhir</td><td>Menjalankan tes fitur/unit dan memeriksa route utama serta halaman error.</td></tr>
+    <tr><td>Persiapan deployment</td><td>Checklist server, environment, database, storage, backup, dan uji pascarilis.</td></tr>
+    <tr><td>Dokumentasi teknis/API</td><td>Menjelaskan arsitektur, role, endpoint JSON aktual, dan formulir web booking.</td></tr>
+    <tr><td>Panduan pengguna</td><td>Langkah penggunaan pengunjung, admin, dan pengelola serta pemecahan masalah.</td></tr>
+    <tr><td>Presentasi dan demo</td><td>Alur presentasi, bukti layar aplikasi, skenario demo, dan lembar pembagian kontribusi.</td></tr>
+  </table>
+  <div class="note"><b>Hasil tes lokal:</b> 13 tes lulus, 49 assertions, 0 gagal. Perintah: <span class="code">php artisan test</span>. Ini memverifikasi tes otomatis lokal; bukan klaim bahwa aplikasi telah di-deploy ke server produksi.</div>
+  <h3>Isi dokumen</h3>
+  <ol>
+    <li>Tujuan Sprint 4, cakupan aplikasi, arsitektur, dan data.</li>
+    <li>Dokumentasi endpoint JSON dan proses pengajuan booking.</li>
+    <li>Screenshot aktual aplikasi: pengunjung, admin, dan pengelola.</li>
+    <li>Panduan penggunaan, deployment, hasil tes, kendala, dan persiapan demo.</li>
+  </ol>
+  <div class="warning"><b>Catatan pengumpulan:</b> nama tim, screenshot dari lingkungan yang akan dinilai, dan bukti deployment eksternal perlu dilengkapi/diverifikasi oleh tim bila diwajibkan sekolah.</div>
+</section>
+
+<section class="page">
+  <h2>1. Tujuan, Pengguna, dan Arsitektur</h2>
+  <h3>Tujuan sistem</h3>
+  <ul>
+    <li>Menyediakan informasi wisata dan katalog tiket/paket kepada pengunjung.</li>
+    <li>Mendukung pengajuan booking, unggah bukti pembayaran, dan pemeriksaan status.</li>
+    <li>Membantu admin memverifikasi booking dan mengelola paket/konten.</li>
+    <li>Membantu pengelola memantau reservasi dan kondisi operasional.</li>
+  </ul>
+  <h3>Peran pengguna</h3>
+  <table>
+    <tr><th>Peran</th><th>Tanggung jawab utama</th><th>Akses aplikasi</th></tr>
+    <tr><td>Pengunjung</td><td>Melihat info/paket, mendaftar, membuat booking, melihat tiket dan riwayat.</td><td>Portal publik dan halaman pengunjung setelah login.</td></tr>
+    <tr><td>Admin</td><td>Memeriksa booking/pembayaran, mengelola paket, akun pengelola, dan konten.</td><td>Panel admin dengan pembatasan role.</td></tr>
+    <tr><td>Pengelola</td><td>Memantau reservasi, status kunjungan, pengaturan operasional, dan analitik.</td><td>Panel pengelola dengan pembatasan role.</td></tr>
+  </table>
+  <h3>Komponen teknis</h3>
+  <ul>
+    <li>Laravel 12 dan PHP 8.2+, menggunakan route, controller, middleware, Eloquent, dan migrasi.</li>
+    <li>Blade untuk tampilan web; Vite dan Tailwind CSS untuk aset antarmuka.</li>
+    <li>SQLite cocok untuk pengembangan lokal; konfigurasi aplikasi juga menyediakan MySQL/MariaDB.</li>
+    <li>Session web digunakan untuk autentikasi dan formulir; middleware membatasi akses panel menurut role.</li>
+    <li>Bukti pembayaran disimpan melalui Laravel filesystem pada disk public.</li>
+  </ul>
+  <h3>Alur bisnis ringkas</h3>
+  <p><b>Pengunjung</b> memilih paket → mengisi data/tanggal → mengirim bukti pembayaran → booking berstatus menunggu. <b>Admin</b> memeriksa bukti dan menetapkan status terverifikasi atau ditolak. <b>Pengelola</b> memantau daftar reservasi dan status kunjungan.</p>
+</section>
+
+<section class="page">
+  <h2>2. Struktur Data dan API</h2>
+  <h3>Entitas utama</h3>
+  <table>
+    <tr><th>Tabel</th><th>Fungsi / hubungan penting</th></tr>
+    <tr><td><span class="code">users</span></td><td>Akun dan role pengunjung/admin/pengelola.</td></tr>
+    <tr><td><span class="code">bookings</span></td><td>Transaksi utama; menyimpan kode, kontak, tanggal, jumlah, paket, total, status, item, dan bukti.</td></tr>
+    <tr><td><span class="code">pakets</span></td><td>Katalog paket aktif, kategori, harga, dan urutan tampilan.</td></tr>
+    <tr><td><span class="code">reservasis</span></td><td>Data reservasi manual untuk alur operasional terpisah.</td></tr>
+    <tr><td><span class="code">wisatas</span></td><td>Data tempat wisata yang dapat dikaitkan secara logis dengan booking.</td></tr>
+    <tr><td><span class="code">operasional_settings</span></td><td>Pengaturan cuaca, kuota, status gerbang, dan informasi lapangan.</td></tr>
+    <tr><td><span class="code">orders</span></td><td>Skema/model tersedia, namun checkout aktif saat ini membuat data pada tabel <span class="code">bookings</span>.</td></tr>
+  </table>
+  <p>Relasi utama: satu user dapat mempunyai banyak booking; booking dapat menyimpan user pemesan dan user yang memverifikasi/menolak. Nama/harga paket yang dipilih disimpan sebagai snapshot pada booking, bukan foreign key langsung ke paket. Kolom <span class="code">wisata_id</span> pada booking belum menggunakan foreign key.</p>
+  <h3>Endpoint JSON yang tersedia</h3>
+  <table>
+    <tr><th>Method / URL</th><th>Akses</th><th>Tujuan dan hasil</th></tr>
+    <tr><td><span class="code">GET /api/operasional</span></td><td>Publik</td><td>Mengembalikan objek pengaturan operasional saat ini.</td></tr>
+    <tr><td><span class="code">GET /api/check-status</span></td><td>Pengunjung login</td><td>Mengembalikan peta ID booking ke status pembayaran milik user; objek kosong jika tidak ada.</td></tr>
+    <tr><td><span class="code">GET /admin/booking/{id}/detail</span></td><td>Admin login</td><td>Mengembalikan detail booking; ID tidak ditemukan menghasilkan 404.</td></tr>
+  </table>
+  <h3>Pengajuan booking</h3>
+  <p><span class="code">POST /pembayaran/proses</span> adalah formulir web (bukan JSON API), memakai session dan CSRF serta multipart/form-data. Field utamanya: nama, email, nomor HP, tanggal kunjungan, jumlah tiket (1–100), metode pembayaran, JSON keranjang, dan bukti gambar JPEG/PNG/JPG maksimal 2 MB. Booking baru disimpan dengan status <span class="code">pending</span>.</p>
+  <div class="note">Saat ini tidak ada REST API publik untuk CRUD paket, registrasi, pembayaran, atau verifikasi booking. Route panel yang lain adalah alur web/session. Contoh JSON detail request/respons terdapat pada <span class="code">docs/API.md</span>.</div>
+</section>
+
+<section class="page">
+  <h2>3. Bukti Visual — Pengunjung</h2>
+  <p class="muted">Tangkapan viewport halaman aplikasi yang dibuka pada browser lokal. Data nama/akun pada screenshot adalah data demo sintetis.</p>
+  <div class="screen"><img class="shot" src="screenshots/login-pengunjung.png"><p class="caption"><b>Gambar 1.</b> Form login pengunjung.</p></div>
+  <div class="screen"><img class="shot" src="screenshots/dashboard-pengunjung-viewport.png"><p class="caption"><b>Gambar 2.</b> Dashboard pengunjung berisi ringkasan wisata dan akses ke katalog.</p></div>
+  <div class="note">Screenshot merekam tampilan viewport; bagian halaman yang lebih panjang dapat dilihat dengan menggulir saat aplikasi dibuka.</div>
+</section>
+
+<section class="page">
+  <h2>4. Bukti Visual — Informasi dan Pemesanan</h2>
+  <p class="muted">Screenshot diambil pada lingkungan demo lokal, bukan dari situs produksi.</p>
+  <div class="screen"><img class="shot" src="screenshots/info-wisata-viewport.png"><p class="caption"><b>Gambar 3.</b> Informasi destinasi, fasilitas, tarif, dan tips pengunjung.</p></div>
+  <div class="screen"><img class="shot" src="screenshots/katalog-paket-viewport.png"><p class="caption"><b>Gambar 4.</b> Katalog paket wisata untuk pemesanan.</p></div>
+</section>
+
+<section class="page">
+  <h2>5. Bukti Visual — Checkout dan Tiket</h2>
+  <div class="screen"><img class="shot" src="screenshots/form-booking-viewport.png"><p class="caption"><b>Gambar 5.</b> Form review checkout dan pengisian data booking.</p></div>
+  <div class="screen"><img class="shot" src="screenshots/riwayat-tiket-viewport.png"><p class="caption"><b>Gambar 6.</b> Riwayat tiket menunjukkan kode booking dan status pembayaran.</p></div>
+  <div class="note">Data booking pada screenshot dibuat khusus untuk dokumentasi di database demo sementara; bukan transaksi atau data pelanggan nyata.</div>
+</section>
+
+<section class="page">
+  <h2>6. Bukti Visual — Panel Admin</h2>
+  <div class="screen"><img class="shot" src="screenshots/dashboard-admin-viewport.png"><p class="caption"><b>Gambar 7.</b> Dashboard admin menampilkan ringkasan pendapatan dan status booking.</p></div>
+  <div class="screen"><img class="shot" src="screenshots/booking-admin-viewport.png"><p class="caption"><b>Gambar 8.</b> Daftar booking untuk pemeriksaan dan verifikasi admin.</p></div>
+</section>
+
+<section class="page">
+  <h2>7. Bukti Visual — Panel Pengelola</h2>
+  <div class="screen"><img class="shot" src="screenshots/dashboard-pengelola-viewport.png"><p class="caption"><b>Gambar 9.</b> Dashboard pengelola merangkum reservasi dan verifikasi.</p></div>
+  <div class="screen"><img class="shot" src="screenshots/reservasi-pengelola-viewport.png"><p class="caption"><b>Gambar 10.</b> Daftar reservasi menyediakan pencarian dan ringkasan status.</p></div>
+</section>
+
+<section class="page">
+  <h2>8. Panduan Pengguna</h2>
+  <h3>Pengunjung</h3>
+  <ol>
+    <li>Daftar bila belum punya akun, lalu login melalui halaman pengunjung.</li>
+    <li>Buka Wisata, pilih paket, masukkan ke keranjang, lalu periksa jumlah dan total.</li>
+    <li>Isi data kontak dan tanggal kunjungan hari ini atau mendatang.</li>
+    <li>Pilih metode pembayaran dan unggah bukti JPEG/PNG/JPG maksimal 2 MB.</li>
+    <li>Kirim booking, simpan kode, lalu cek status melalui Tiket/Riwayat.</li>
+  </ol>
+  <h3>Admin</h3>
+  <ol>
+    <li>Login ke <span class="code">/admin/login</span> menggunakan akun admin.</li>
+    <li>Buka Kelola Booking; cocokkan data, tanggal, jumlah, nilai, dan bukti bayar.</li>
+    <li>Verifikasi jika valid atau tolak jika tidak sesuai; tinjau riwayat setelah tindakan.</li>
+    <li>Gunakan menu paket, akun pengelola, dan konten sesuai kewenangan.</li>
+  </ol>
+  <h3>Pengelola</h3>
+  <ol>
+    <li>Login ke <span class="code">/pengelola/login</span>.</li>
+    <li>Pantau dashboard dan gunakan pencarian pada halaman Reservasi.</li>
+    <li>Kelola reservasi manual dan perbarui status kunjungan berdasarkan kondisi aktual.</li>
+    <li>Gunakan menu Operasional, Analitik, dan Pengaturan sesuai tugas.</li>
+  </ol>
+  <h3>Pemecahan masalah</h3>
+  <table>
+    <tr><th>Kondisi</th><th>Tindakan</th></tr>
+    <tr><td>Login gagal/tidak punya akses</td><td>Periksa email, password, dan halaman login sesuai role; hubungi admin untuk pemeriksaan akun.</td></tr>
+    <tr><td>Validasi booking gagal</td><td>Pastikan keranjang tidak kosong, tanggal valid, jumlah 1–100, dan metode pembayaran tersedia.</td></tr>
+    <tr><td>Bukti ditolak</td><td>Gunakan JPEG/PNG/JPG dengan ukuran tidak melebihi 2 MB.</td></tr>
+    <tr><td>404 atau gangguan 500</td><td>Periksa URL atau coba kembali; cek status booking sebelum mengirim ulang pembayaran.</td></tr>
+  </table>
+</section>
+
+<section class="page">
+  <h2>9. Persiapan Deployment</h2>
+  <p>Deployment produksi belum dilakukan. Checklist ini menyiapkan rilis pada hosting yang mendukung PHP dan MySQL/MariaDB.</p>
+  <h3>Konfigurasi dan pemasangan</h3>
+  <ol>
+    <li>Pastikan PHP 8.2+, Composer, database, dan ekstensi yang dibutuhkan tersedia.</li>
+    <li>Pasang dependensi terkunci: <span class="code">composer install --no-dev --prefer-dist --optimize-autoloader</span>, kemudian bangun aset dengan <span class="code">npm install</span> dan <span class="code">npm run build</span>.</li>
+    <li>Siapkan <span class="code">.env</span> produksi secara aman: <span class="code">APP_ENV=production</span>, <span class="code">APP_DEBUG=false</span>, URL HTTPS, konfigurasi database, dan APP_KEY yang konsisten. Jangan commit secret.</li>
+    <li>Buat backup database dan storage; jalankan <span class="code">php artisan migrate --force</span> dan seeder paket bila diperlukan.</li>
+    <li>Pastikan hanya folder <span class="code">public</span> menjadi document root; siapkan izin tulis terbatas pada <span class="code">storage</span> dan <span class="code">bootstrap/cache</span>.</li>
+    <li>Pastikan <span class="code">storage:link</span> aktif dan unggahan bukti tersimpan persisten.</li>
+  </ol>
+  <h3>Uji pascarilis</h3>
+  <ul>
+    <li>Uji login setiap role, katalog, booking, unggah bukti, verifikasi, reservasi, dan ekspor.</li>
+    <li>Pastikan halaman error tidak menampilkan stack trace dan debug produksi mati.</li>
+    <li>Pastikan route uji <span class="code">/403-test</span>, <span class="code">/500-test</span>, dan <span class="code">/admin/test-upload</span> tidak aktif pada produksi.</li>
+    <li>Pantau log dan ruang disk; uji proses pemulihan backup database serta file.</li>
+  </ul>
+  <div class="warning">Sesuaikan langkah server dengan penyedia hosting. Jangan mengubah APP_KEY pada rilis biasa, menjalankan rollback destruktif, atau memakai kredensial contoh sebagai secret produksi.</div>
+</section>
+
+<section class="page">
+  <h2>10. Pengujian, Kendala, dan Batasan</h2>
+  <h3>Hasil verifikasi otomatis</h3>
+  <table>
+    <tr><th>Area</th><th>Hasil</th></tr>
+    <tr><td>Test suite Laravel</td><td>13 tes lulus; 49 assertions; 0 gagal.</td></tr>
+    <tr><td>Autentikasi dan role</td><td>Redirect login admin, pengelola, pengunjung, dan guest diuji.</td></tr>
+    <tr><td>Alur pengunjung</td><td>Booking disimpan, validasi keranjang, katalog paket, dan riwayat tiket diuji.</td></tr>
+    <tr><td>Panel operasional</td><td>Halaman admin, pencarian/pagination reservasi diuji.</td></tr>
+    <tr><td>Error handling</td><td>Halaman 404 ramah dan kegagalan database ke 500 diuji.</td></tr>
+  </table>
+  <p>Perintah yang dijalankan: <span class="code">php artisan test</span>. Hasil berasal dari lingkungan lokal. Belum mencakup deployment hosting, pengujian beban, pemulihan backup produksi, atau smoke test pada server luar.</p>
+  <h3>Batasan yang diketahui</h3>
+  <ul>
+    <li>Endpoint API REST belum lengkap; sebagian besar interaksi adalah formulir Blade/session.</li>
+    <li>Akun admin tidak disediakan oleh seeder; akun awal harus dibuat melalui prosedur tepercaya.</li>
+    <li>Screenshot dalam dokumen diambil dari browser lokal dengan database demo sementara. Tampilan gambar eksternal dapat berbeda jika jaringan/CDN dibatasi.</li>
+    <li>Nama anggota, pembagian kontribusi aktual, identitas hosting, dan hasil deployment perlu diisi/diverifikasi tim.</li>
+  </ul>
+  <h3>Rencana pengembangan</h3>
+  <ul>
+    <li>Jika dibutuhkan integrasi eksternal, rancang API berversi beserta autentikasi dan skema error yang konsisten.</li>
+    <li>Perkuat monitoring, retensi bukti pembayaran, dan otomatisasi backup/restore.</li>
+    <li>Uji tampilan dan alur pada perangkat/peramban yang digunakan saat presentasi.</li>
+  </ul>
+</section>
+
+<section class="page">
+  <h2>11. Presentasi dan Latihan Demo</h2>
+  <h3>Susunan presentasi (11 slide)</h3>
+  <ol>
+    <li>Judul proyek dan anggota tim.</li>
+    <li>Latar belakang masalah.</li>
+    <li>Tujuan dan manfaat aplikasi.</li>
+    <li>Kebutuhan pengguna.</li>
+    <li>Use case dan struktur data.</li>
+    <li>Arsitektur dan teknologi.</li>
+    <li>Fitur utama aplikasi.</li>
+    <li>Hasil implementasi dan screenshot aktual.</li>
+    <li>Pengujian dan hasilnya.</li>
+    <li>Kendala, solusi, dan pengembangan berikutnya.</li>
+    <li>Kesimpulan dan penutup.</li>
+  </ol>
+  <h3>Urutan demo yang disarankan</h3>
+  <ol>
+    <li>Buka aplikasi dan jelaskan tujuan singkat.</li>
+    <li>Login pengunjung; tampilkan info dan katalog.</li>
+    <li>Jelaskan checkout dan tunjukkan status booking/riwayat.</li>
+    <li>Login admin; tinjau booking demo dan tunjukkan verifikasi.</li>
+    <li>Login pengelola; tampilkan dashboard dan pencarian reservasi.</li>
+    <li>Tutup dengan hasil tes, keterbatasan, dan rencana pengembangan.</li>
+  </ol>
+  <h3>Pembagian kontribusi anggota</h3>
+  <table>
+    <tr><th>Nama anggota</th><th>Bagian aktual</th><th>Bukti kontribusi</th><th>Materi penjelasan</th></tr>
+    <tr><td>[Isi nama]</td><td>[UI/UX dan halaman]</td><td>[File/halaman/commit]</td><td>Struktur, form, validasi frontend</td></tr>
+    <tr><td>[Isi nama]</td><td>[Controller dan alur booking]</td><td>[File/tes/commit]</td><td>Validasi server, status, akses role</td></tr>
+    <tr><td>[Isi nama]</td><td>[Database/deployment]</td><td>[Migrasi/konfigurasi]</td><td>Relasi, migrasi, environment</td></tr>
+  </table>
+  <div class="note">Sesuaikan jumlah baris untuk semua anggota dan isi dengan jujur sesuai pekerjaan aktual. Siapkan akun demo aman, data konsisten, backup screenshot, serta latihan durasi 7–10 menit.</div>
+  <h3>Pertanyaan yang perlu dikuasai</h3>
+  <ul>
+    <li>Mengapa memilih Laravel/Blade dan bagaimana akses tiap role dibatasi?</li>
+    <li>Bagaimana booking dibuat, divalidasi, disimpan, dan diverifikasi?</li>
+    <li>Bagaimana bukti bayar disimpan dan bagaimana tes otomatis dijalankan?</li>
+    <li>Bagaimana membedakan formulir web dengan endpoint JSON yang tersedia?</li>
+    <li>Apa saja yang belum diuji atau belum dideploy?</li>
+  </ul>
+</section>
+
+<section class="page">
+  <h2>12. Checklist Serah Terima</h2>
+  <table>
+    <tr><th>Checklist</th><th>Status / catatan</th></tr>
+    <tr><td>README, dokumentasi API, dan panduan pengguna</td><td>Tersedia pada proyek; sesuai fitur Laravel Kawah Putih.</td></tr>
+    <tr><td>Screenshot halaman pengunjung, admin, dan pengelola</td><td>Disertakan dalam dokumen; diambil pada browser lokal memakai data sintetis.</td></tr>
+    <tr><td>Hasil tes otomatis</td><td>13 lulus, 49 assertions, 0 gagal pada pemeriksaan lokal.</td></tr>
+    <tr><td>Akun demo untuk presentasi</td><td>Siapkan ulang di lingkungan demo; tidak ada password demo produksi dalam dokumen.</td></tr>
+    <tr><td>Nama anggota dan pembagian kontribusi</td><td>Isi berdasarkan tugas dan bukti kerja aktual.</td></tr>
+    <tr><td>Deployment dan smoke test server</td><td>Belum dilakukan/terbukti; jalankan dan catat bila menjadi syarat penilaian.</td></tr>
+    <tr><td>Backup serta pemulihan</td><td>Siapkan dan verifikasi prosedur pada lingkungan tujuan.</td></tr>
+  </table>
+  <h3>Kesimpulan</h3>
+  <p>Aplikasi telah memiliki alur utama untuk pengunjung, admin, dan pengelola, serta dokumentasi Sprint 4 yang mengikuti implementasi aktual. Tes otomatis lokal lulus. Sebelum serah terima akhir, lengkapi identitas tim dan lakukan uji pada server/komputer demo yang akan digunakan.</p>
+  <p class="small">Dokumen ini merupakan ringkasan tugas Sprint 4; untuk rincian teknis per topik, rujuk README proyek dan berkas Markdown di folder docs.</p>
+</section>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
-# Final Dokumentasi Presentasi dan Laporan Akhir
+# Dokumentasi Presentasi dan Laporan Akhir
 
 ## 1. Judul Proyek
-Sistem Manajemen Booking dan Informasi Wisata Kawah Putih
+Sistem Booking dan Informasi Wisata Kawah Putih
 
 ## 2. Latar Belakang
 Proyek ini dikembangkan untuk membantu pengelola wisata dan pengunjung dalam menjalankan proses booking, pengelolaan data reservasi, serta akses berbasis peran. Aplikasi ini dirancang agar memiliki alur login yang aman, akses sesuai role, serta pengalaman pengguna yang konsisten dan mudah dipahami.
@@ -50,26 +50,30 @@ Validasi dilakukan terhadap beberapa aspek utama:
 - Error handling dan log server
 
 ## 6. Hasil Pengujian
-Hasil pengujian terakhir menunjukkan:
+Hasil pengujian otomatis lokal terakhir:
 
-- Total test: 9
-- Berhasil: 9
+- Total tes: 13
+- Berhasil: 13
+- Assertions: 49
 - Gagal: 0
 
-## 7. Bukti Hasil
-Bukti dikelola dalam bentuk:
-- hasil test Laravel
-- layar halaman 404 custom
-- screenshot validasi login dan error handling
+Perintah verifikasi: `php artisan test`. Hasil ini mencakup tes lokal, bukan bukti bahwa aplikasi telah di-deploy atau diuji pada server produksi.
+
+## 7. Dokumen Sprint 4
+
+- [Panduan deployment](docs/PANDUAN-DEPLOYMENT.md)
+- [Dokumentasi API dan endpoint JSON aktual](docs/API.md)
+- [Panduan pengguna](docs/PANDUAN-PENGGUNA.md)
+- [Bahan presentasi Sprint 4](docs/PRESENTASI-SPRINT-4.md)
+- [Latihan demo dan kesiapan kontribusi](docs/REHEARSAL-SPRINT-4.md)
+
+Proyek ini adalah aplikasi booking wisata berbasis Laravel. Contoh endpoint perpustakaan di materi Sprint 4 tidak diterapkan; dokumentasi API mencatat endpoint JSON yang benar-benar tersedia dan membedakannya dari formulir web.
 
 ## 8. Screenshot / Bukti Visual
-- Halaman login admin
-- Halaman login pengunjung
-- Halaman error 404 custom
-- Halaman error 500 custom
+Tangkapan layar aktual belum disertakan dalam repository ini. Ambil dari lingkungan demo dan samarkan data pribadi sebelum digunakan. Daftar tampilan yang perlu diambil tercantum di [panduan pengguna](docs/PANDUAN-PENGGUNA.md) dan [bahan presentasi](docs/PRESENTASI-SPRINT-4.md).
 
 ## 9. Kesimpulan
-Aplikasi telah berhasil memenuhi kebutuhan utama berupa akses berbasis role, validasi input, mekanisme error handling, serta tampilan error yang lebih profesional. Halaman error tidak lagi terlihat kosong atau teknis, melainkan dibuat rapi dan ramah untuk pelanggan maupun admin. Sistem juga sudah teruji melalui test otomatis dan menghasilkan hasil yang valid.
+Aplikasi menyediakan fitur utama pengunjung, admin, dan pengelola. Pemeriksaan otomatis lokal terakhir lulus 13 tes. Kesiapan deployment eksternal, data/akun demo, dan bukti screenshot aktual tetap harus diverifikasi pada lingkungan presentasi.
 
 ## 10. Saran Pengembangan Selanjutnya
 - Menambahkan custom handling khusus untuk kegagalan koneksi database
